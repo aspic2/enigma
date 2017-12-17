@@ -28,7 +28,7 @@ class Rotor(object):
 
     def set_current(self, count):
         #TODO: BIG ERROR: ROTORS ARE MOVING IN LOCKSTEP
-        self.current = count % ((len(self.letters) ** (self.slot)) //
+        self.current = (count % ((len(self.letters) ** (self.slot))) //
                                   (len(self.letters)** (self.slot-1)))
 
     def set_rotor(self, slot, setting):

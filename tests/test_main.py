@@ -56,15 +56,15 @@ class TestMain(unittest.TestCase):
         # e.count = 17,575
         print("r1 current setting = " + str(r1.current))
         # 25, or e.count % (26 ** 1)
-        self.assertEqual(r1.current, e.count % (len(r1.letters) ** (e.rotors.index(r1)+1))
+        self.assertEqual(r1.current, (e.count % (len(r1.letters) ** (e.rotors.index(r1)+1)))
         // (len(r1.letters)** e.rotors.index(r1)))
         print("r2 current setting = " + str(r2.current))
         # 25, or
-        self.assertEqual(r2.current, e.count % (len(r2.letters) ** (e.rotors.index(r2)+1))
+        self.assertEqual(r2.current, (e.count % (len(r2.letters) ** (e.rotors.index(r2)+1)))
         // (len(r2.letters)** e.rotors.index(r2)))
         print("r3 current setting = " + str(r3.current))
         # 25 or e.count % 26
-        self.assertEqual(r3.current, e.count % (len(r3.letters) ** (e.rotors.index(r3)+1))
+        self.assertEqual(r3.current, (e.count % (len(r3.letters) ** (e.rotors.index(r3)+1)))
         // (len(r3.letters)** e.rotors.index(r3)))
 
     def test_Enigma(self):
@@ -74,7 +74,7 @@ class TestMain(unittest.TestCase):
         slots = [r1, r2, r3]
         e = main.Enigma(slots).set_count()
 
-        for n in range(400):
+        for n in range(40):
             char = random.choice(string.ascii_uppercase)
             e.encode(char)
             for r in e.rotors:
