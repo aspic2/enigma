@@ -1,13 +1,13 @@
 # enigma
-Write and decrypt your own enigma cyphers.
+Write and decrypt your own enigma ciphers.
 
-## ENIGMA CYPHER ##
+## ENIGMA CIPHER ##
 
 Still under construction.
 
-This will be a simple interactive tool where you can type in a message and encode it using WWII enigma cypher.
+This will be a simple interactive tool where you can type in a message and encode it using WWII enigma cipher.
 You will also be able to decrypt messages. The idea was inspired by Youtube's Numberphile and their videos on
-the enigma cypher.
+the enigma cipher.
 
 ## Design strategy ##
 
@@ -31,3 +31,12 @@ Leave the enigma-specific manipulation for later.~~
 6. Tests to confirm program.
 
 7. Better User Interface.
+
+
+## RESOURCES ##
+Original Numberphile videos:
+  1. https://www.youtube.com/watch?v=G2_Q9FoD-oQ
+  2. https://www.youtube.com/watch?v=V4V2bpZlqx8
+
+Enigma article on Ciphermachines.com
+  http://ciphermachines.com/enigma
