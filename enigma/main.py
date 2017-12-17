@@ -27,11 +27,11 @@ class Rotor(object):
         return new_char
 
     def set_current(self, count):
+        #TODO: BIG ERROR: ROTORS ARE MOVING IN LOCKSTEP
         self.current = count % ((len(self.letters) ** (self.slot)) //
                                   (len(self.letters)** (self.slot-1)))
 
     def set_rotor(self, slot, setting):
-        #TODO: this needs to reset Enigma.count
         self.current = setting
         self.slot = slot
         return self

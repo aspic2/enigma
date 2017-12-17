@@ -74,6 +74,13 @@ class TestMain(unittest.TestCase):
         slots = [r1, r2, r3]
         e = main.Enigma(slots).set_count()
 
+        for n in range(400):
+            char = random.choice(string.ascii_uppercase)
+            e.encode(char)
+            for r in e.rotors:
+                print("Rotor %d setting: %d" % (r.slot, r.current))
+            print("\n\n")
+
 
 
 
