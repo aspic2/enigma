@@ -22,21 +22,13 @@ class Rotor(object):
         # used to determine how often rotor rotates
         self.slot = 1
 
-    def rotate(self):
-        """This is not being used"""
-        if self.current == 25:
-            self.current = 0
-        else:
-            self.current += 1
-        return self
-
-    def get_current(self, count, slot):
-        self.current = count % ((len(self.letters) ** (slot)) // (len(self.letters)** (self.slot-1)))
-        return self
-
     def push_char(self, char):
         new_char = self.letters[self.current]
         return new_char
+
+    def set_current(self, count):
+        self.current = count % ((len(self.letters) ** (self.slot)) //
+                                  (len(self.letters)** (self.slot-1)))
 
     def set_rotor(self, slot, setting):
         #TODO: this needs to reset Enigma.count
@@ -66,33 +58,18 @@ class Enigma(object):
             self.count += r.current * len(r.letters) ** self.rotors.index(r)
         return self
 
-    def spin_rotors(self):
-        for r in self.rotors:
-            # is count divisible by 26 ^ rotor slot?
-            if not self.count % (len(r.letters) ** self.rotors.index(r)):
-                r.rotate()
-        # TODO: this is only counting to 25 before rotating
-        self.count += 1
-        return self
-
     def encode(self, char):
-        # pass message through rotors.
-        # rotate first rotor. If first rotor resets to 0, rotate second rotor.
-        # if second rotor resets to 0, rotate third rotor
-        # etc.
         for r in self.rotors:
-            #r.get_current(count, (rotors.index(r) + 1))
-            r.current = self.count % ((len(r.letters) ** (r.slot)) // (len(r.letters)** (r.slot-1)))
+            r.set_current(self.count)
             char = r.push_char(char)
         self.count += 1
-        #self.spin_rotors()
         return char
 
 
 def main():
     rotors = [Rotor(1).set_rotor(1, 20), Rotor(2).set_rotor(2, 15),
               Rotor(3).set_rotor(3, 10)]
-    enigma = Enigma(rotors)
+    enigma = Enigma(rotors).set_count()
     user_input = None
     while user_input != "end":
         user_input = input("Type next letter or type \"end\"\n> ")

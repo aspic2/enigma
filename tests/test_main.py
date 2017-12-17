@@ -8,21 +8,25 @@ class TestMain(unittest.TestCase):
 
     def test_Rotor(self):
         r = main.Rotor(1)
+        count = 0
         char = (random.choice(string.ascii_uppercase), True)
         results = []
         # run through all possible combinations
         for n in range(25):
+            r.set_current(count)
             new_char = r.push_char(char)
             results.append(new_char)
-            r.rotate()
+            count += 1
         self.assertEqual(len(set(results)), len(results))
 
     def test_push_char(self):
         r = main.Rotor()
         r.set_rotor(1, 25)
+        count = r.current ** r.slot
         char = random.choice(string.ascii_uppercase)
         r.push_char(char)
-        r.rotate()
+        count += 1
+        r.set_current(count)
         self.assertEqual(r.current, 0)
 
     def test_rotate_math(self):
@@ -38,28 +42,6 @@ class TestMain(unittest.TestCase):
         """
         count = 2 + (26*2) + (2*26**2)
         self.assertEqual(count, e.count)
-
-    # def test_rotations(self):
-    #     r1 = main.Rotor(1).set_rotor(1, 25)
-    #     r2 = main.Rotor(2).set_rotor(2, 25)
-    #     r3 = main.Rotor(3).set_rotor(3, 25)
-    #     slots = [r1, r2, r3]
-    #     e = main.Enigma(slots).set_count()
-    #     e.encode("q")
-    #     self.assertEqual(r1.current, 0)
-    #     print("Count is " + str(e.count))
-    #     print("r2 current is " + str(r2.current))
-    #     self.assertEqual(r2.current, 0)
-    #     self.assertEqual(r3.current, 0)
-    #     start_count = e.count
-    #     iters = 800
-    #     for num in range(iters):
-    #         e.encode(random.choice(string.ascii_uppercase))
-    #         print( str(num) + " " + str(e.rotors[1].current))
-    #     end_count = e.count
-    #     self.assertTrue(end_count == start_count + iters)
-    #     self.assertEqual(r1.current, iters % 26)
-    #     self.assertEqual(r2.current, iters % (26**2))
 
     def test_my_math(self):
         """I should be able to use an incrementing variable and floor division
@@ -91,7 +73,7 @@ class TestMain(unittest.TestCase):
         r3 = main.Rotor(3).set_rotor(3, 18)
         slots = [r1, r2, r3]
         e = main.Enigma(slots).set_count()
-        
+
 
 
 
