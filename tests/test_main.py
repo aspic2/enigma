@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
         r = main.Rotor()
         r.set_rotor(1, 25)
         char = random.choice(string.ascii_uppercase)
-        r.push_char((char, True))
+        r.push_char(char)
         r.rotate()
         self.assertEqual(r.current, 0)
 
@@ -39,32 +39,59 @@ class TestMain(unittest.TestCase):
         count = 2 + (26*2) + (2*26**2)
         self.assertEqual(count, e.count)
 
-    def test_rotations(self):
+    # def test_rotations(self):
+    #     r1 = main.Rotor(1).set_rotor(1, 25)
+    #     r2 = main.Rotor(2).set_rotor(2, 25)
+    #     r3 = main.Rotor(3).set_rotor(3, 25)
+    #     slots = [r1, r2, r3]
+    #     e = main.Enigma(slots).set_count()
+    #     e.encode("q")
+    #     self.assertEqual(r1.current, 0)
+    #     print("Count is " + str(e.count))
+    #     print("r2 current is " + str(r2.current))
+    #     self.assertEqual(r2.current, 0)
+    #     self.assertEqual(r3.current, 0)
+    #     start_count = e.count
+    #     iters = 800
+    #     for num in range(iters):
+    #         e.encode(random.choice(string.ascii_uppercase))
+    #         print( str(num) + " " + str(e.rotors[1].current))
+    #     end_count = e.count
+    #     self.assertTrue(end_count == start_count + iters)
+    #     self.assertEqual(r1.current, iters % 26)
+    #     self.assertEqual(r2.current, iters % (26**2))
+
+    def test_my_math(self):
+        """I should be able to use an incrementing variable and floor division
+        to determine each rotor's position.
+        """
         r1 = main.Rotor(1).set_rotor(1, 25)
-        r2 = main.Rotor(2).set_rotor(2, 25)
-        r3 = main.Rotor(3).set_rotor(3, 25)
+        r2 = main.Rotor(2).set_rotor(2, 23)
+        r3 = main.Rotor(3).set_rotor(3, 18)
         slots = [r1, r2, r3]
         e = main.Enigma(slots).set_count()
-        e.encode(("q", False))
-        self.assertEqual(r1.current, 0)
-        print("Count is " + str(e.count))
-        print("r2 current is " + str(r2.current))
-        self.assertEqual(r2.current, 0)
-        self.assertEqual(r3.current, 0)
-        start_count = e.count
-        iters = 800
-        for num in range(iters):
-            e.encode((random.choice(string.ascii_uppercase), False))
-            print( str(num) + " " + str(e.rotors[1].current))
-        end_count = e.count
-        self.assertTrue(end_count == start_count + iters)
-        self.assertEqual(r1.current, iters % 26)
-        self.assertEqual(r2.current, iters % (26**2))
+        print("Current e.count = " + str(e.count))
+        # e.count = 17,575
+        print("r1 current setting = " + str(r1.current))
+        # 25, or e.count % (26 ** 1)
+        self.assertEqual(r1.current, e.count % (len(r1.letters) ** (e.rotors.index(r1)+1))
+        // (len(r1.letters)** e.rotors.index(r1)))
+        print("r2 current setting = " + str(r2.current))
+        # 25, or
+        self.assertEqual(r2.current, e.count % (len(r2.letters) ** (e.rotors.index(r2)+1))
+        // (len(r2.letters)** e.rotors.index(r2)))
+        print("r3 current setting = " + str(r3.current))
+        # 25 or e.count % 26
+        self.assertEqual(r3.current, e.count % (len(r3.letters) ** (e.rotors.index(r3)+1))
+        // (len(r3.letters)** e.rotors.index(r3)))
 
-
-
-
-
+    def test_Enigma(self):
+        r1 = main.Rotor(1).set_rotor(1, 25)
+        r2 = main.Rotor(2).set_rotor(2, 23)
+        r3 = main.Rotor(3).set_rotor(3, 18)
+        slots = [r1, r2, r3]
+        e = main.Enigma(slots).set_count()
+        
 
 
 

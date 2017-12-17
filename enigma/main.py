@@ -23,37 +23,26 @@ class Rotor(object):
         self.slot = 1
 
     def rotate(self):
+        """This is not being used"""
         if self.current == 25:
             self.current = 0
         else:
             self.current += 1
         return self
 
+    def get_current(self, count, slot):
+        self.current = count % ((len(self.letters) ** (slot)) // (len(self.letters)** (self.slot-1)))
+        return self
+
     def push_char(self, char):
-        #TODO: should this come before or after new_char?
-        # char[1] is a boolean
-        # if char[1]:
-        #     self.rotate()
         new_char = self.letters[self.current]
-        return (new_char, self.current == 0)
+        return new_char
 
     def set_rotor(self, slot, setting):
+        #TODO: this needs to reset Enigma.count
         self.current = setting
         self.slot = slot
         return self
-
-
-class Slot(object):
-    """moving logic for spinning the rotor reader here. Facilitates making
-    rotors that rotate at different rates to one another.
-    """
-
-    def __init__(self, position=1):
-        """Only what's important."""
-        self.position = position
-
-    def spin(self):
-        pass
 
 
 class Enigma(object):
@@ -61,8 +50,13 @@ class Enigma(object):
     def __init__(self, rotors=[]):
         """Testing with single rotor and single slot"""
         self.rotors = rotors
-        self.slots = [Slot(1)]
         self.count = 0
+
+    def set_rotor_slots():
+        #TODO: poor encapsulation
+        for r in rotors:
+            r.slot(rotors.index(r)+1)
+        return self
 
     def set_count(self):
         """Call only when re-setting rotors"""
@@ -73,12 +67,12 @@ class Enigma(object):
         return self
 
     def spin_rotors(self):
-        # TODO: this is only counting to 25 before rotating
-        self.count += 1
         for r in self.rotors:
             # is count divisible by 26 ^ rotor slot?
             if not self.count % (len(r.letters) ** self.rotors.index(r)):
                 r.rotate()
+        # TODO: this is only counting to 25 before rotating
+        self.count += 1
         return self
 
     def encode(self, char):
@@ -87,8 +81,11 @@ class Enigma(object):
         # if second rotor resets to 0, rotate third rotor
         # etc.
         for r in self.rotors:
+            #r.get_current(count, (rotors.index(r) + 1))
+            r.current = self.count % ((len(r.letters) ** (r.slot)) // (len(r.letters)** (r.slot-1)))
             char = r.push_char(char)
-        self.spin_rotors()
+        self.count += 1
+        #self.spin_rotors()
         return char
 
 
@@ -99,7 +96,7 @@ def main():
     user_input = None
     while user_input != "end":
         user_input = input("Type next letter or type \"end\"\n> ")
-        print(enigma.encode((user_input, True)))
+        print(enigma.encode(user_input))
     sys.exit(0)
 
 
