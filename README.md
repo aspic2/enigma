@@ -35,6 +35,9 @@ Leave the enigma-specific manipulation for later.~~
 
 7. Better User Interface.
 
+8. Revise for more robust tool (each individual module should work independent
+  of the other pieces.)
+
 
 ## RESOURCES ##
 Original Numberphile videos:
